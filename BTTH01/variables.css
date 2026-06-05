@@ -1,0 +1,31 @@
+:root {
+    /* Colors - Tông màu Midnight & Amber (Trông cá tính và thủ công hơn) */
+    --primary-color: #f59e0b; /* Amber */
+    --primary-dark: #d97706;
+    --primary-light: #fbbf24;
+    --secondary-color: #38bdf8; /* Sky Blue */
+    --dark-color: #0f172a; /* Midnight */
+    --text-color: #1e293b;
+    --text-light: #64748b;
+    --bg-color: #ffffff;
+    --bg-light: #f1f5f9;
+    --white: #ffffff;
+    --border-color: #e2e8f0;
+    
+    /* Fonts - Kết hợp giữa hiện đại và dễ đọc */
+    --font-main: 'Plus Jakarta Sans', sans-serif;
+    
+    /* Spacing & Layout */
+    --container-width: 1120px;
+    --section-padding: 80px 0;
+    
+    /* Transitions */
+    --transition-smooth: all 0.4s ease-in-out;
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 6px 24px -4px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 20px 50px -20px rgba(15, 23, 42, 0.12);
+
+    --muted: #94a3b8;
+}

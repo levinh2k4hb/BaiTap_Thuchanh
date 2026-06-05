@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lê Vinh | Portfolio - Creative Web Dev</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="variables.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="hero.css">
+    <link rel="stylesheet" href="about.css">
+    <link rel="stylesheet" href="skills.css">
+    <link rel="stylesheet" href="portfolio.css">
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="footer.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <nav class="container">
+            <div class="logo">
+                <a href="#"><span>Dev</span>Folio</a>
+            </div>
+            
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+            </label>
+
+            <ul class="nav-links">
+                <li><a href="#home">Trang chủ</a></li>
+                <li><a href="#about">Về mình</a></li>
+                <li><a href="#portfolio">Sản phẩm</a></li>
+                <li><a href="#contact">Liên hệ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container hero-content">
+                <h1 class="reveal">Mình là <span class="highlight">Lê Vinh</span></h1>
+                <p class="reveal delay-1">Một sinh viên Công nghệ thông tin với niềm đam mê xây dựng những giao diện web sạch sẽ, tối giản nhưng vẫn đầy đủ tính năng.</p>
+                <div class="hero-btns reveal delay-2">
+                    <a href="#portfolio" class="btn btn-primary">Khám phá sản phẩm</a>
+                    <a href="#contact" class="btn btn-outline">Kết nối nhé!</a>
+                </div>
+            </div>
+            <div class="scroll-indicator"></div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about section">
+            <div class="container grid-2">
+                <div class="about-img">
+                    <div class="img-wrapper">
+                        <!-- Sẽ được thay bằng ảnh thực tế -->
+                        <div class="placeholder-img"></div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h2 class="section-title">Đôi chút về mình</h2>
+                    <p>Hiện tại mình đang theo đuổi con đường trở thành Front-end Developer chuyên nghiệp. Mình tin rằng một website tốt không chỉ cần đẹp mà còn phải mang lại trải nghiệm mượt mà nhất cho người dùng.</p>
+                    <p>Ngoài việc code, mình còn dành thời gian để tìm tòi về UI/UX và cách tối ưu hóa hiệu suất trang web.</p>
+                    
+                    <!-- Phần Kỹ năng: Sử dụng CSS Progress Bars -->
+                    <div id="skills" class="skills-container">
+                        <h3 class="subsection-title">Thành thạo</h3>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>HTML5</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress" style="width: 90%;"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>CSS3 / Grid / Flex</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress" style="width: 85%;"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>JavaScript (ES6+)</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress" style="width: 75%;"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>React JS</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar"><div class="progress" style="width: 65%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="portfolio section bg-light">
+            <div class="container">
+                <h2 class="section-title center">Sản phẩm tiêu biểu</h2>
+                
+                <!-- Bộ lọc sản phẩm (Yêu cầu bài 1.3) -->
+                <div class="portfolio-filters">
+                    <button class="filter-btn active">Tất cả</button>
+                    <button class="filter-btn">Web</button>
+                    <button class="filter-btn">Mobile</button>
+                    <button class="filter-btn">Design</button>
+                </div>
+
+                <div class="portfolio-grid">
+                    <!-- Project 1: Sử dụng kỹ thuật CSS :target để làm lightbox -->
+                    <div class="portfolio-item">
+                        <a href="#project1" class="portfolio-link">
+                            <div class="portfolio-img-box">
+                                <div class="placeholder-img" style="background: #fbbf24; color: #1e293b;">Bakery Shop</div>
+                                <div class="portfolio-overlay">
+                                    <span>Chi tiết dự án</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="portfolio-info">
+                            <h3>Bakery Shop UI</h3>
+                            <p>Giao diện tiệm bánh tối giản</p>
+                        </div>
+                        <div id="project1" class="lightbox">
+                            <a href="#portfolio" class="close">&times;</a>
+                            <div class="lightbox-content">
+                                <div class="placeholder-img large">Project 01 Full View</div>
+                                <div class="lightbox-text">
+                                    <h3>E-commerce Web App</h3>
+                                    <p>Mô tả chi tiết về dự án này. Sử dụng React và Node.js.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2-6: Các placeholder dự án khác -->
+                    <div class="portfolio-item">
+                        <div class="portfolio-img-box"><div class="placeholder-img" style="background: #38bdf8;">Coffee Land</div></div>
+                        <div class="portfolio-info"><h3>Coffee Landing Page</h3><p>Giao diện quán cà phê</p></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-img-box"><div class="placeholder-img" style="background: #818cf8;">Note App</div></div>
+                        <div class="portfolio-info"><h3>Quick Notes</h3><p>Ứng dụng ghi chú cá nhân</p></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-img-box"><div class="placeholder-img" style="background: #f472b6;">Healthy Meal</div></div>
+                        <div class="portfolio-info"><h3>Daily Meal</h3><p>Theo dõi chế độ ăn uống</p></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-img-box"><div class="placeholder-img" style="background: #a78bfa;">Movie Time</div></div>
+                        <div class="portfolio-info"><h3>Cinema App</h3><p>Tra cứu lịch chiếu phim</p></div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-img-box"><div class="placeholder-img" style="background: #2dd4bf;">Budget Tracker</div></div>
+                        <div class="portfolio-info"><h3>Money Flow</h3><p>Quản lý tài chính cá nhân</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section">
+            <div class="container">
+                <div class="grid-2">
+                    <div class="contact-info">
+                        <h2 class="section-title">Giữ liên lạc nhé!</h2>
+                        <p>Dù bạn có ý tưởng lớn hay chỉ muốn chào một câu, mình luôn sẵn sàng lắng nghe.</p>
+                        <ul class="contact-list">
+                            <li><strong>Email:</strong> bach.dev@example.com</li>
+                            <li><strong>Địa chỉ:</strong> Hà Nội, Việt Nam</li>
+                        </ul>
+                    </div>
+                    <div class="contact-form-box">
+                        <form action="#" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Họ và tên</label>
+                                <input type="text" id="name" name="name" required placeholder="Nhập tên của bạn">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required placeholder="example@mail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Tin nhắn</label>
+                                <textarea id="message" name="message" rows="5" required placeholder="Bạn đang nghĩ gì?"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary full-width">Gửi tin nhắn</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer: 3 cột theo yêu cầu bài 1.4 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="logo"><span>Dev</span>Folio</div>
+                <p class="footer-tagline">Xây dựng trải nghiệm kỹ thuật số tối ưu.</p>
+            </div>
+            
+            <div class="footer-social">
+                <h3>Kết nối</h3>
+                <div class="social-links">
+                    <a href="https://github.com/duybach" target="_blank" class="social-link" title="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="#" target="_blank" class="social-link" title="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="#" target="_blank" class="social-link" title="Email">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l12-9.725v15.438h-24v-15.438l12 9.725z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-info">
+                <h3>Thông tin</h3>
+                <p>&copy; 2024 Lê Duy Bách.<br>All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

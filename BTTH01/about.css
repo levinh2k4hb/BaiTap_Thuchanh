@@ -1,0 +1,31 @@
+.about-img .img-wrapper {
+    position: relative;
+    padding: 20px;
+}
+
+.about-img .img-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 80%;
+    border: 5px solid var(--primary-light);
+    border-radius: 12px;
+    z-index: -1;
+}
+
+.about-img .placeholder-img {
+    height: 450px;
+    box-shadow: var(--shadow-lg);
+}
+
+.about-text p {
+    margin-bottom: 20px;
+}
+
+.subsection-title {
+    font-size: 1.5rem;
+    margin: 30px 0 20px;
+    color: var(--dark-color);
+}
