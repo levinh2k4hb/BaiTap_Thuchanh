@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản Lý Công Việc – BTTH03</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <div class="site-brand container">
+    <h1>✅ Quản Lý Công Việc Cá Nhân</h1>
+    <p>BTTH03 – CSE391 – K66</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="thong-ke">
+    <div class="thong-ke-item tong">
+      <div class="so" id="tong-cv">0</div>
+      <div class="nhan">Tổng công việc</div>
+    </div>
+    <div class="thong-ke-item xong">
+      <div class="so" id="sv-xong">0</div>
+      <div class="nhan">Đã hoàn thành</div>
+    </div>
+    <div class="thong-ke-item chua">
+      <div class="so" id="sv-chua">0</div>
+      <div class="nhan">Chưa hoàn thành</div>
+    </div>
+  </div>
+
+  <div id="thong-bao"></div>
+
+  <div class="toolbar">
+    <h2>Danh sách công việc</h2>
+    <button class="btn-purple" id="btn-them">+ Thêm công việc</button>
+  </div>
+
+  <div id="danh-sach-cv">
+  </div>
+
+</div>
+
+<div id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="tieu-de-modal">Thêm công việc mới</h3>
+      <button id="btn-dong-modal">&times;</button>
+    </div>
+
+    <form id="form-cv" novalidate>
+      <div class="form-group">
+        <label for="tieu-de">Tiêu đề công việc *</label>
+        <input type="text" id="tieu-de" placeholder="Nhập tiêu đề công việc..." />
+        <div class="loi-nhap" id="loi-tieu-de">Tiêu đề không được để trống.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="mo-ta">Mô tả ngắn</label>
+        <textarea id="mo-ta" placeholder="Mô tả chi tiết công việc..."></textarea>
+      </div>
+
+      <div class="form-hang">
+        <div class="form-group">
+          <label for="han-hoan-thanh">Hạn hoàn thành *</label>
+          <input type="date" id="han-hoan-thanh" />
+          <div class="loi-nhap" id="loi-han">Vui lòng chọn hạn hoàn thành.</div>
+        </div>
+        <div class="form-group">
+          <label for="uu-tien">Mức ưu tiên *</label>
+          <select id="uu-tien">
+            <option value="">-- Chọn --</option>
+            <option value="cao">🔴 Cao</option>
+            <option value="tb">🟡 Trung bình</option>
+            <option value="thap">🟢 Thấp</option>
+          </select>
+          <div class="loi-nhap" id="loi-uu-tien">Vui lòng chọn mức ưu tiên.</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-gray" id="btn-huy">Hủy</button>
+        <button type="submit" class="btn-green" id="btn-luu">💾 Lưu</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  var dsCongViec = JSON.parse(localStorage.getItem('btth03_cv')) || [];
+  var viTriSua = -1;
+
+  function saveTasks() {
+    localStorage.setItem('btth03_cv', JSON.stringify(dsCongViec));
+  }
+
+  function updateTaskSummary() {
+    var total = dsCongViec.length;
+    var xong  = 0;
+    for (var i = 0; i < dsCongViec.length; i++) {
+      if (dsCongViec[i].hoanThanh) xong++;
+    }
+    document.getElementById('tong-cv').textContent = total;
+    document.getElementById('sv-xong').textContent = xong;
+    document.getElementById('sv-chua').textContent = total - xong;
+  }
+
+  function showMessage(msg, loai) {
+    var el = document.getElementById('thong-bao');
+    el.textContent = msg;
+    el.className = loai;
+    el.style.display = 'block';
+    setTimeout(function() {
+      el.style.display = 'none';
+    }, 3000);
+  }
+
+  function formatDate(str) {
+    if (!str) return '';
+    var p = str.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+
+  function nhanUuTien(ut) {
+    if (ut === 'cao')  return '<span class="nhan nhan-cao">🔴 Cao</span>';
+    if (ut === 'tb')   return '<span class="nhan nhan-tb">🟡 TB</span>';
+    if (ut === 'thap') return '<span class="nhan nhan-thap">🟢 Thấp</span>';
+    return '';
+  }
+
+  function renderTasks() {
+    var container = document.getElementById('danh-sach-cv');
+    container.innerHTML = '';
+
+    if (dsCongViec.length === 0) {
+      container.innerHTML = '<div id="trong-msg">📋 Chưa có công việc nào. Nhấn "+ Thêm công việc" để bắt đầu!</div>';
+      updateTaskSummary();
+      return;
+    }
+
+    for (var i = 0; i < dsCongViec.length; i++) {
+      var cv = dsCongViec[i];
+      var card = document.createElement('div');
+
+      card.className = 'card-cv' + (cv.hoanThanh ? ' da-xong' : '');
+      card.setAttribute('data-index', i);
+
+      var nhanTT = cv.hoanThanh
+        ? '<span class="nhan nhan-xong">✔ Hoàn thành</span>'
+        : '<span class="nhan nhan-chua">⏳ Chưa xong</span>';
+
+      card.innerHTML =
+        '<input type="checkbox" class="checkbox-xong" ' + (cv.hoanThanh ? 'checked' : '') +
+          ' title="Đánh dấu hoàn thành" onchange="doiTrangThai(' + i + ', this.checked)">' +
+        '<div class="cv-noi-dung">' +
+          '<div class="cv-header">' +
+            '<span class="tieu-de-cv">' + cv.tieuDe + '</span>' +
+            nhanUuTien(cv.uuTien) + nhanTT +
+          '</div>' +
+          (cv.moTa ? '<div class="mo-ta-cv">' + cv.moTa + '</div>' : '') +
+          '<div class="han-cv">📅 Hạn: <span>' + formatDate(cv.han) + '</span></div>' +
+        '</div>' +
+        '<div class="cv-actions">' +
+          '<button class="btn-orange" onclick="moFormSua(' + i + ')">✏️ Sửa</button>' +
+          '<button class="btn-red"    onclick="xoaCongViec(' + i + ')">🗑️ Xóa</button>' +
+        '</div>';
+
+      container.appendChild(card);
+    }
+
+    updateTaskSummary();
+  }
+
+  function doiTrangThai(index, checked) {
+    dsCongViec[index].hoanThanh = checked;
+    saveTasks();
+    renderTasks();
+    var msg = checked ? '✅ Đã đánh dấu hoàn thành!' : '↩ Đã bỏ đánh dấu hoàn thành!';
+    showMessage(msg, 'thanh-cong');
+  }
+
+  function moFormThem() {
+    viTriSua = -1;
+    resetForm();
+    document.getElementById('tieu-de-modal').textContent = 'Thêm công việc mới';
+    document.getElementById('btn-luu').textContent = '💾 Lưu';
+    document.getElementById('modal-overlay').classList.add('hien');
+  }
+
+  function moFormSua(index) {
+    viTriSua = index;
+    var cv = dsCongViec[index];
+
+    document.getElementById('tieu-de').value        = cv.tieuDe;
+    document.getElementById('mo-ta').value          = cv.moTa;
+    document.getElementById('han-hoan-thanh').value = cv.han;
+    document.getElementById('uu-tien').value        = cv.uuTien;
+
+    document.getElementById('tieu-de-modal').textContent = '✏️ Cập nhật công việc';
+    document.getElementById('btn-luu').textContent = '🔄 Cập nhật';
+    document.getElementById('modal-overlay').classList.add('hien');
+  }
+
+  function dongModal() {
+    document.getElementById('modal-overlay').classList.remove('hien');
+    resetForm();
+  }
+
+  function resetForm() {
+    document.getElementById('form-cv').reset();
+    var dsLoi = document.querySelectorAll('#form-cv .loi-nhap');
+    dsLoi.forEach(function(el) { el.style.display = 'none'; });
+    var dsInput = document.querySelectorAll('#form-cv input, #form-cv select');
+    dsInput.forEach(function(el) { el.classList.remove('sai'); });
+  }
+
+  function kiemTraForm() {
+    var hopLe = true;
+
+    var tieuDe = document.getElementById('tieu-de');
+    var hanHoanThanh = document.getElementById('han-hoan-thanh');
+    var uuTien = document.getElementById('uu-tien');
+
+    var loiTieuDe = document.getElementById('loi-tieu-de');
+    var loiHan = document.getElementById('loi-han');
+    var loiUuTien = document.getElementById('loi-uu-tien');
+
+    if (tieuDe.value.trim() === '') {
+      tieuDe.classList.add('sai');
+      loiTieuDe.style.display = 'block';
+      hopLe = false;
+    } else {
+      tieuDe.classList.remove('sai');
+      loiTieuDe.style.display = 'none';
+    }
+
+    if (hanHoanThanh.value.trim() === '') {
+      hanHoanThanh.classList.add('sai');
+      loiHan.style.display = 'block';
+      hopLe = false;
+    } else {
+      hanHoanThanh.classList.remove('sai');
+      loiHan.style.display = 'none';
+    }
+
+    if (uuTien.value.trim() === '') {
+      uuTien.classList.add('sai');
+      loiUuTien.style.display = 'block';
+      hopLe = false;
+    } else {
+      uuTien.classList.remove('sai');
+      loiUuTien.style.display = 'none';
+    }
+
+    return hopLe;
+  }
+
+  document.getElementById('btn-them').addEventListener('click', function() {
+    moFormThem();
+  });
+
+  document.getElementById('btn-dong-modal').addEventListener('click', function() {
+    dongModal();
+  });
+
+  document.getElementById('btn-huy').addEventListener('click', function() {
+    dongModal();
+  });
+
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) dongModal();
+  });
+
+  document.getElementById('form-cv').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    if (!kiemTraForm()) return;
+
+    var cv = {
+      tieuDe:    document.getElementById('tieu-de').value.trim(),
+      moTa:      document.getElementById('mo-ta').value.trim(),
+      han:       document.getElementById('han-hoan-thanh').value,
+      uuTien:    document.getElementById('uu-tien').value,
+      hoanThanh: false
+    };
+
+    if (viTriSua === -1) {
+      dsCongViec.push(cv);
+      showMessage('✅ Thêm công việc thành công!', 'thanh-cong');
+    } else {
+      cv.hoanThanh = dsCongViec[viTriSua].hoanThanh;
+      dsCongViec[viTriSua] = cv;
+      showMessage('✅ Cập nhật công việc thành công!', 'thanh-cong');
+    }
+
+    saveTasks();
+    renderTasks();
+    dongModal();
+  });
+
+  function xoaCongViec(index) {
+    var cv = dsCongViec[index];
+    var xacNhan = window.confirm('Bạn có chắc muốn xóa công việc "' + cv.tieuDe + '" không?');
+    if (xacNhan) {
+      dsCongViec.splice(index, 1);
+      saveTasks();
+      renderTasks();
+      showMessage('✅ Đã xóa công việc "' + cv.tieuDe + '" thành công!', 'thanh-cong');
+    }
+  }
+
+  renderTasks();
+</script>
+</body>
+</html>
